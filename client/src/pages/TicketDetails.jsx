@@ -13,12 +13,15 @@ import {
   Box,
   Button,
   useToast,
+  IconButton,
 } from '@chakra-ui/react';
 
 import { useEffect } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+
+import { GoDotFill } from 'react-icons/go';
 
 const TicketDetails = () => {
   const [reservedTicket, setReservedTicket] = useState([]);
@@ -27,7 +30,7 @@ const TicketDetails = () => {
   const toast = useToast();
 
   const getReservedTicketDetails = async () => {
-    let res = await axios.get('http://localhost:8080/api/reservations');
+    let res = await axios.get('https://furetion.onrender.com/api/reservations');
 
     console.log(res.data);
 
@@ -129,11 +132,31 @@ const TicketDetails = () => {
                     </Td>
                     <Td>{ele.ticketId.name}</Td>
                     <Td>
-                      {ele.ticketId.available == true ? (
-                        <Text>Avaliable</Text>
+                      {/* {ele.ticketId.available == true ? (
+                        <Text color={ele.ticketId.available ? 'green' : 'red'}>
+                          Avaliable
+                        </Text>
                       ) : (
                         <Text>Not Availible</Text>
-                      )}
+                      )} */}
+
+                      <Text>
+                        {ele.ticketId.available ? (
+                          <IconButton
+                            colorScheme={
+                              ele.ticketId.available ? 'green' : 'red'
+                            }
+                            aria-label="Availability"
+                            icon={<GoDotFill />}
+                          />
+                        ) : (
+                          <IconButton
+                            colorScheme="red"
+                            aria-label="Availability"
+                            icon={<GoDotFill />}
+                          />
+                        )}
+                      </Text>
                     </Td>
 
                     <Td>{ele.seats.length}</Td>
@@ -145,6 +168,7 @@ const TicketDetails = () => {
                         colorScheme="pink"
                         display={'block'}
                         m="auto"
+                        isDisabled={!ele.ticketId.available}
                       >
                         pay now
                       </Button>

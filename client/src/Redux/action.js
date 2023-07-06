@@ -10,7 +10,7 @@ import axios from 'axios';
 export const getMovie = () => async (dispatch) => {
   dispatch({ type: get_movie_loading });
   try {
-    let res = await axios.get('http://localhost:8080/api/tickets');
+    let res = await axios.get('https://furetion.onrender.com/api/tickets');
     dispatch({ type: get_movie_success, payload: res.data });
   } catch (e) {
     dispatch({ type: get_movie_error });
@@ -19,7 +19,7 @@ export const getMovie = () => async (dispatch) => {
 
 export const getMovieDetails = (id) => async (dispatch) => {
   try {
-    let res = await axios.get(`http://localhost:8080/api/tickets/${id}`);
+    let res = await axios.get(`https://furetion.onrender.com/api/tickets/${id}`);
 
     dispatch({ type: get_movieDetails, payload: res.data });
   } catch (e) {

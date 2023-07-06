@@ -7,7 +7,7 @@ import {
   InputRightElement,
   Text,
 } from '@chakra-ui/react';
-import { AiOutlineSearch} from 'react-icons/ai';
+import { AiOutlineSearch } from 'react-icons/ai';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -28,14 +28,21 @@ const Navbar = () => {
         </Text>
       </Link>
 
+      <Link to="/ticketdetails">
+        <Button>Booked ticket</Button>
+      </Link>
+
       <InputGroup w="300px">
         <InputRightElement pointerEvents="none">
-          <AiOutlineSearch color="gray.300" style={{fontSize:"20px"}} />
+          <AiOutlineSearch color="gray.300" style={{ fontSize: '20px' }} />
         </InputRightElement>
-        <Input type="text" placeholder="Search Movie" bg="white" color={"black"} />
+        <Input
+          type="text"
+          placeholder="Search Movie"
+          bg="white"
+          color={'black'}
+        />
       </InputGroup>
-
-      
     </Flex>
   );
 };
