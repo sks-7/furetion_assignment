@@ -8,6 +8,7 @@ import {
   Flex,
   Image,
   Input,
+  SimpleGrid,
   Text,
   useToast,
 } from '@chakra-ui/react';
@@ -15,34 +16,55 @@ import axios from 'axios';
 
 const MovieDetails = () => {
   const [seat, setSeat] = useState([]);
-
   const [date, setDate] = useState('');
+  const [availableSeats, setAvailableSeats] = useState([]);
 
   const { movieDetailsData } = useSelector((store) => store);
+  console.log(movieDetailsData);
   const { id } = useParams();
   const dispatch = useDispatch();
 
-  const navigete = useNavigate();
-
+  const navigate = useNavigate();
   const toast = useToast();
 
   useEffect(() => {
     dispatch(getMovieDetails(id));
   }, []);
 
-  console.log(movieDetailsData);
+  useEffect(() => {
+    const newAvailableSeats = [];
+    for (let i = 1; i <= 10; i++) {
+      if (seat.includes(i.toString())) {
+        newAvailableSeats.push({ number: i, available: false });
+      } else {
+        newAvailableSeats.push({ number: i, available: true });
+      }
+    }
+    setAvailableSeats(newAvailableSeats);
+  }, [seat]);
+
+  const handleSeatSelection = (selectedSeat) => {
+    const updatedSeat = [...seat];
+    if (updatedSeat.includes(selectedSeat)) {
+      const index = updatedSeat.indexOf(selectedSeat);
+      updatedSeat.splice(index, 1);
+    } else {
+      updatedSeat.push(selectedSeat);
+    }
+    setSeat(updatedSeat);
+  };
 
   const handleBookTicket = async () => {
-    if (date == '' && seat == '') {
+    if (date === '' || seat.length === 0) {
       toast({
-        title: 'All field is required.',
+        title: 'All fields are required.',
         status: 'warning',
         duration: 3000,
         isClosable: true,
       });
-
       return;
     }
+
     try {
       const reservationData = {
         ticketId: id,
@@ -55,17 +77,18 @@ const MovieDetails = () => {
       );
 
       setDate('');
+      setSeat([]);
 
       toast({
-        title: 'Ticket is booked .',
-        description: 'Enjoy your movie',
+        title: 'Ticket is booked.',
+        description: 'Enjoy your movie.',
         status: 'success',
         duration: 5000,
         isClosable: true,
       });
 
       setTimeout(() => {
-        navigete('/ticketdetails');
+        navigate('/ticketdetails');
       }, 1000);
     } catch (error) {
       console.error(error);
@@ -97,7 +120,7 @@ const MovieDetails = () => {
         <Box maxW="400px" bg="white" p="4" borderRadius="md" boxShadow="md">
           <Input
             type="text"
-            placeholder="Enter seat number separated by ,"
+            placeholder="Enter seat number separated by comma"
             mb="4"
             value={seat.join(',')}
             onChange={(e) => setSeat(e.target.value.split(','))}
@@ -109,8 +132,28 @@ const MovieDetails = () => {
             value={date}
             onChange={(e) => setDate(e.target.value)}
           />
-          <Button onClick={handleBookTicket} colorScheme="pink">
-            Book ticket
+
+          <SimpleGrid columns={5} spacing={2} mt="4">
+            {availableSeats.map((seat) => (
+              <Button
+                key={seat.number}
+                m="2"
+                colorScheme={seat.available ? 'green' : 'red'}
+                onClick={() => handleSeatSelection(seat.number.toString())}
+              >
+                {seat.number}
+              </Button>
+            ))}
+          </SimpleGrid>
+
+          <Button
+            isDisabled={!movieDetailsData.available}
+            onClick={handleBookTicket}
+            colorScheme="pink"
+            mt="4"
+            w="100%"
+          >
+            Book Ticket
           </Button>
         </Box>
       </Box>
