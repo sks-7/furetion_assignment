@@ -37,7 +37,10 @@ const Signup = () => {
   console.log(loginCreds);
 
   function Signupdata(loginCreds) {
-    return axios.post(`http://localhost:8080/user/signup`, loginCreds);
+    return axios.post(
+      `https://furetion-tech.onrender.com/user/signup`,
+      loginCreds
+    );
   }
 
   const handleClick = () => {

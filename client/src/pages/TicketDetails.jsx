@@ -30,7 +30,9 @@ const TicketDetails = () => {
   const toast = useToast();
 
   const getReservedTicketDetails = async () => {
-    let res = await axios.get('https://furetion.onrender.com/api/reservations');
+    let res = await axios.get(
+      'https://furetion-tech.onrender.com/api/reservations'
+    );
 
     console.log(res.data);
 

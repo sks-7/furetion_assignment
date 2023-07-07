@@ -72,7 +72,7 @@ const MovieDetails = () => {
       };
 
       await axios.post(
-        'https://furetion.onrender.com/api/reservations/add',
+        'https://furetion-tech.onrender.com/api/reservations/add',
         reservationData
       );
 

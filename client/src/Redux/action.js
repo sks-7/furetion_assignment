@@ -14,7 +14,7 @@ import axios from 'axios';
 export const getMovie = () => async (dispatch) => {
   dispatch({ type: get_movie_loading });
   try {
-    let res = await axios.get('https://furetion.onrender.com/api/tickets');
+    let res = await axios.get('https://furetion-tech.onrender.com/api/tickets');
     dispatch({ type: get_movie_success, payload: res.data });
   } catch (e) {
     dispatch({ type: get_movie_error });
@@ -24,7 +24,7 @@ export const getMovie = () => async (dispatch) => {
 export const getMovieDetails = (id) => async (dispatch) => {
   try {
     let res = await axios.get(
-      `https://furetion.onrender.com/api/tickets/${id}`
+      `https://furetion-tech.onrender.com/api/tickets/${id}`
     );
 
     dispatch({ type: get_movieDetails, payload: res.data });
@@ -38,7 +38,10 @@ export const getMovieDetails = (id) => async (dispatch) => {
 export const loginAPI = (creds, toast, navigate) => async (dispatch) => {
   dispatch({ type: AUTH_LOGIN_LOADING });
   try {
-    let response = await axios.post('http://localhost:8080/user/login', creds);
+    let response = await axios.post(
+      'https://furetion-tech.onrender.com/user/login',
+      creds
+    );
    
     dispatch({ type: AUTH_LOGIN_SUCCESS, payload: response.data });
 
