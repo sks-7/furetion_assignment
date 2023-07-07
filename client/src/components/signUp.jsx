@@ -7,7 +7,6 @@ import {
   Heading,
   Image,
   Input,
-  Select,
   Text,
   useToast,
 } from '@chakra-ui/react';
